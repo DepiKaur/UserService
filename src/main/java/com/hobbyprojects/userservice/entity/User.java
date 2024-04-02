@@ -1,19 +1,14 @@
-package com.hobbyprojects.userservice.model;
+package com.hobbyprojects.userservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hobbyprojects.userservice.constants.AppConstants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
@@ -24,34 +19,27 @@ import java.time.LocalDateTime;
  * @date 2024-04-02
  */
 
+@Getter
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "user")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
 
     @Column(name = "first_name")
-    @JsonProperty(value = "first_name")
-    @NotEmpty(message = "First name can not be null or empty")
     private String firstName;
 
     @Column(name = "last_name")
-    @JsonProperty(value = "last_name")
-    @NotEmpty(message = "Last name can not be null or empty")
     private String lastName;
 
     @Column(name = "email")
-    @Pattern(regexp = AppConstants.EMAIL_REGEX, message = "Email must be valid")
     private String email;
 
     @Column(name = "creation_date")
-    @JsonProperty(value = "creation_date")
-    @CreationTimestamp          // another similar hibernate annotation is @UpdateTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime creationDate;
 
     public User() {
@@ -63,40 +51,20 @@ public class User {
         this.email = email;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
     }
 
     public void setCreationDate(LocalDateTime creationDate) {
