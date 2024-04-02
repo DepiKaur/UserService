@@ -3,6 +3,7 @@ package com.hobbyprojects.userservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.hobbyprojects.userservice.constants.AppConstants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.Date;
 
@@ -41,7 +43,7 @@ public class User {
     private String lastName;
 
     @Column(name = "email")
-    @NotEmpty(message = "Email can not be null or empty")
+    @Pattern(regexp = AppConstants.EMAIL_REGEX, message = "Email must be valid")
     private String email;
 
     @Column(name = "creation_date")
