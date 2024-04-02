@@ -1,6 +1,6 @@
 package com.hobbyprojects.userservice.repository;
 
-import com.hobbyprojects.userservice.model.User;
+import com.hobbyprojects.userservice.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

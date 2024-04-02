@@ -1,6 +1,5 @@
 package com.hobbyprojects.userservice.exceptions;
 
-import com.hobbyprojects.userservice.model.ErrorMessage;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +37,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ErrorMessage> handleNoSuchElementException(Exception e) {
-        ErrorMessage message = new ErrorMessage(e.getMessage());
+        ErrorMessage message = new ErrorMessage("Not Found");
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
