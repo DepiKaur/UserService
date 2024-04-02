@@ -1,4 +1,4 @@
-package com.hobbyprojects.userservice.model;
+package com.hobbyprojects.userservice.exceptions;
 
 /**
  * @author Depinder Kaur
