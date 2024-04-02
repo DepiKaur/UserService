@@ -1,5 +1,6 @@
 package com.hobbyprojects.userservice.service;
 
+import com.hobbyprojects.userservice.model.PatchUserRequest;
 import com.hobbyprojects.userservice.model.User;
 
 import java.util.List;
@@ -12,4 +13,12 @@ import java.util.List;
  */
 public interface UserService {
     List<User> getAllUsers();
+
+    void createUser(User user);
+
+    void deleteUser(String userId);
+
+    User getUserById(String userId);
+
+    void updateUser(String userId, PatchUserRequest request);
 }
