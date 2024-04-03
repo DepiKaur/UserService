@@ -49,7 +49,7 @@ public class UserService {
             User user = opUser.get();
             userRepo.delete(user);
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Invalid user id");
         }
     }
 
@@ -96,6 +96,8 @@ public class UserService {
              }
 
              userRepo.save(user);
+        } else {
+            throw new NoSuchElementException("Invalid user id");
         }
     }
 }
