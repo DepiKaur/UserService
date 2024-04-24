@@ -5,6 +5,8 @@ import com.hobbyprojects.userservice.api.mapper.DtoToEntityMapper;
 import com.hobbyprojects.userservice.api.mapper.EntityToDtoMapper;
 import com.hobbyprojects.userservice.entity.User;
 import com.hobbyprojects.userservice.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -28,6 +31,7 @@ import java.util.Optional;
  */
 
 @RestController
+@Tag(name = "User Service REST API")
 @RequestMapping("/api/v1")
 public class UserController {
 
@@ -38,6 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
+    @Operation(summary = "Get all available users", description = "Returns a list of all available users")
     public List<UserDto> getAllUsers() {
         List<User> allUsers = userService.getAllUsers();
         return allUsers.stream()
@@ -47,6 +52,7 @@ public class UserController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create a new user", description = "Create a new user")
     public UserDto createUser(@Valid @RequestBody UserDto userDto) {
 
         User user = DtoToEntityMapper.mapToUser(userDto);          // get user from userDto
@@ -56,23 +62,25 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public Optional<UserDto> getUserById(@PathVariable("id") Long id) {
+    @Operation(summary = "Find a user", description = "Find a user based on userId")
+    public UserDto getUserById(@PathVariable("id") Long id) {
         Optional<User> opUser = userService.getUserById(id);
         if (opUser.isPresent()) {
             User user = opUser.get();
-            return Optional.ofNullable(EntityToDtoMapper.mapToUserDto(user));
+            return EntityToDtoMapper.mapToUserDto(user);
         } else {
-            return Optional.empty();
+            throw new NoSuchElementException("No User found for given Id: " + id);
         }
     }
 
     @DeleteMapping("/users/{id}")
+    @Operation(summary = "Delete a user", description = "Delete a user based on userId")
     public void deleteUserById(@PathVariable("id") Long id) {
         userService.deleteUserById(id);
     }
 
     @PatchMapping("/users/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Update user info", description = "Update user data")
     public void updateUser(@PathVariable("id") Long id,
                            @RequestBody UserDto userDto) {
         userService.update(id, userDto);
